@@ -1,0 +1,86 @@
+自动转单模拟
+
+1，登陆
+1.1
+登录   /login
+POST：
+    {
+        'tel': '18675647984',
+        'password': '123456',
+    }
+RETURN:
+    {
+        'ret': 0
+        'msg': '登录成功' or '登录失败，原因：%s'
+        'data': {
+            'hashkey': '', 登陆websocket使用
+        }
+    }
+
+2，提交请求
+2.1
+询价查询  /inquiry/search
+GET:
+    {
+        'command':  2待分配
+    }
+RETURN:
+    {
+        'ret': 0,
+        'msg': '',
+        'data': {
+            'count': 1, 总数量
+            'list': [
+                {
+                    'id': 0，询价单号
+                    'company_id': 0，客户公司id
+                    'company_name': ''，客户公司名称
+                    'receiver': 0，接单公司id
+                    'receiver_name': ''，接单公司名称
+                    'owner': 0，接单人员id
+                    'owner_name': ''，接单人员名称
+                    'status': 0， 状态:0待分配,1已推荐,2已转单,3重分配,4已接单,5已关闭
+                    'status_desc': ''， 状态描述
+                    'sponsor': 0，下单人uid
+                    'sponsor_name':'', 下单人姓名
+                }
+
+            ]
+        }
+    }
+
+2.2
+可以转单的公司列表   /inquiry/receiver-list
+GET:
+    id:0, 询价单号
+    receiver_type:0, 公司类型:1供应商,2服务商
+    receiver_name:'', 公司名称(模糊过滤)
+
+RETURN:
+    {
+        'ret': 0,
+        'msg': '',
+        'data':{
+                'list':[{
+                        "receiver": 1, 转单公司id
+                        "receiver_name": "",  转单公司名称
+                }
+                ...
+                ]
+        }
+    }
+
+2.3
+询价转单操作 /inquiry/action
+POST:
+    'id': 0，询价单号
+    'receiver': '', 接单公司id
+    'receiver_name':'', 接单公司名称
+    'receiver_type'：'', 接单公司类型：1表示供应商，2表示服务商
+
+RETURN:
+    {
+        'ret': 0,
+        'msg': '',
+        'data': {}
+    }
