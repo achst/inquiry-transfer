@@ -50,6 +50,10 @@ func (r *Request) httpPost() (string, error) {
 	//request
 	req, _ := http.NewRequest("POST", r.Url, body)
 	req.Header.Set("Content-Type", content_type)
+	// add cookie
+	for _, v := range r.CurrentCookies {
+		req.AddCookie(v)
+	}
 	resp, _ := http.DefaultClient.Do(req)
 	data, _ := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
